@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">  
+        
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+
+        {% if title %}
+        <title>{{ title }} | PassTresor</title>
+        {% else %}
+        <title>PassTresor</title>
+        {% endif %}
+    </head>
+
+    <body class="bg-light">
+        {% if current_user.is_authenticated %}
+            <header class="mb-3 border-bottom">
+                <div class="container-fluid">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
+                        <div class="app-brand-user">
+                            <i class="bi bi-shield-lock-fill"></i>
+                            PassTresor
+                        </div>
+
+                        <div class="col-12 d-flex align-items-center justify-content-center col-lg-auto mb-2 mb-lg-0">
+                            <ul class="nav nav-pills nav-fill">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('main.index') }}">
+                                        <i class="bi bi-house-door"></i>
+                                        Tresor
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('entries.add') }}">
+                                        <i class="bi bi-file-earmark-plus"></i>
+                                        Add Entry
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="dropdown-tools">
+                                        <a href="" class="nav-link" id="dropdownTools" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="-15, 5">
+                                            <i class="bi bi-tools"></i>
+                                            Tools
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end shadow py-1" aria-labelledby="dropdownTools">
+                                            <li>
+                                                <a class="dropdown-item" href="{{ url_for('entries.generator') }}">
+                                                    <i class="bi bi-key me-1"></i>
+                                                    Password Generator
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ url_for('entries.export') }}">
+                                                    <i class="bi bi-download me-1"></i>
+                                                    Export Tresor
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <form class="form-search col-12 d-flex col-lg-auto mb-2 mb-lg-0" method="GET" action="{{ url_for('main.index', q=search) }}">
+                            <input class="form-control me-2" name="q" value="{{ search }}" type="search" placeholder="Search..." aria-label="Search">
+                            <div class="flex-shrink-0 dropdown-navbar">
+                                <a href="" class="d-block" title="{{ current_user }}" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0, 10">
+                                    <img class="profile-img rounded-circle" src="{{ url_for('static', filename='images/default.jpg') }}" alt="profile-img" width="36" height="36">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end mx-0 shadow py-0" aria-labelledby="dropdownUser">
+                                    <li class="dropdown-text px-3 py-1">
+                                        <p class="profile-name fw-bold my-0">{{ current_user.name }}</p>
+                                        <small class="profile-email text-secondary my-0">{{ current_user.email }}</small>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider my-1">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ url_for('users.account') }}">
+                                            <i class="bi bi-person me-1"></i>
+                                            Account
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider my-1">
+                                    </li>
+                                    <li class="px-3 py-2">
+                                        <a class="btn btn-outline-secondary d-flex justify-content-center align-items-center mb-1" href="{{ url_for('users.signout') }}">
+                                            <i class="bi bi-box-arrow-right me-2"></i>
+                                            Sign Out
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </header>
+        {% else %}
+            <header>
+                <div class="app-brand-nouser">
+                    <i class="bi bi-shield-lock-fill"></i>
+                    <span>PassTresor</span>
+                </div>
+            </header>
+        {% endif %}
+
+        <main>
+            <div class="mx-2 my-2">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible d-flex align-items-center my-2 mx-2" id="alert" role="alert">
+                                {% if category == 'success' %}
+                                    <i class="bi bi-check-circle-fill alert-icon flex-shrink-0 me-3"></i>
+                                {% elif category == 'danger' %}
+                                    <i class="bi bi-exclamation-triangle-fill alert-icon flex-shrink-0 me-3"></i>
+                                {% endif %}
+                                <div class="alert-message">
+                                    {{ message | safe }}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                {% block errors %}{% endblock errors %}
+
+                {% block content %}{% endblock content %}
+            
+                <div class="bottom-text my-3">
+                    <small class="text-muted">
+                        © 2022 PassTresor Inc.
+                    </small>
+                </div>
+            </div>
+        </main>
+
+        <!-- Hide Alert After 5s -->
+        <script>
+            const alertEvent = document.getElementById("alert");
+
+            if (alertEvent) {
+                setTimeout(function() {
+                    alertEvent.id = "alert-hide";
+                }, 5000);
+            }
+        </script>
+
+        <!-- Back-to-Top Button -->
+        <button onclick="topFunction()" id="topBtn" title="Back to Top">
+            <i class="bi bi-arrow-up-circle top-icon"></i>
+        </button>
+
+        <!-- Back-to-Top Script -->
+        <script>
+            var button = document.getElementById("topBtn");
+            
+            window.onscroll = function() {scrollFunction()};
+            
+            function scrollFunction() {
+                if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
+                    button.style.display = "block";
+                } else {
+                    button.style.display = "none";
+                }
+            }
+            
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+
+        <!-- Generate Password -->
+        <script>
+            $(document).ready(function() {
+                $("#generatePassword").click(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url_for('entries.generator') }}",
+                        data: $(".form-generator").serializeArray(),
+                        success: function (response) {
+                            $("#password").val(response);
+                        },
+                    });
+                });
+            });
+        </script>
+
+        <!-- Copy to Clipboard -->
+        <script>
+            function copyToClipboard(element) {
+                var textCopy = document.getElementById(element).value;
+                navigator.clipboard.writeText(textCopy);
+            }
+        </script>
+
+        <!-- Launch URL -->
+        <script>
+            function launchURL() {
+                var url = document.getElementById("url").value;
+                if (url.startsWith("http://") || url.startsWith("https://")) {
+                    window.open(url).focus();
+                }
+            }
+        </script>
+
+        <!-- Show/Hide Password -->
+        <script>
+            function toggleVisibility(password, icon, index) {
+                var array = document.querySelectorAll(password);
+                array.forEach((element) => {
+                    var type = element.getAttribute("type") === "password" ? "text" : "password";
+                    element.setAttribute("type", type);
+                });
+                array[index].focus();
+                for (const value of document.querySelectorAll(icon)) {
+                    value.classList.toggle("bi-eye");
+                    value.classList.toggle("bi-eye-slash");
+                }
+            }
+        </script>
+
+        <!-- Optional JavaScript; Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    </body>
+</html>

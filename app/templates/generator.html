@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <section class="container bg-light my-3">
+        <h5 class="generator-text">Password Generator</h5>
+        <form class="form-generator my-3 py-3 border rounded-3 bg-white" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group border-bottom mb-3">
+                <div class="form-group mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control generated-password bg-white", id="password", disabled="disabled") }}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.length.label(class="form-label") }}: <strong id="rangeValue">{{ form.length.data }}</strong>
+                    {{ form.length(class="form-range", id="slider", type="range", min="8", max="128", step="1", onchange="$('#rangeValue').html($(this).val())") }}
+                </div>
+                <div class="form-check form-switch">
+                    {{ form.uppercase.label(class="form-label") }}
+                    {{ form.uppercase(class="form-check-input", id="uppercase", type="checkbox") }}
+                </div>
+                <div class="form-check form-switch">
+                    {{ form.lowercase.label(class="form-label") }}
+                    {{ form.lowercase(class="form-check-input", id="lowercase", type="checkbox") }}
+                </div>
+                <div class="form-check form-switch">
+                    {{ form.digits.label(class="form-label") }}
+                    {{ form.digits(class="form-check-input", id="digits", type="checkbox") }}
+                </div>
+                <div class="form-check form-switch mb-1">
+                    {{ form.symbols.label(class="form-label") }}
+                    {{ form.symbols(class="form-check-input", id="symbols", type="checkbox") }}
+                </div>
+            </fieldset>
+            <div class="form-group d-flex justify-content-between align-items-center mt-3">
+                <button class="w-50 btn btn-primary me-2" type="button" id="generatePassword">Generate</button>
+                <button class="w-50 btn btn-outline-secondary" type="button" onclick="copyToClipboard('password')">Copy Password</button>
+            </div>
+        </form>
+    </section>
+{% endblock content %}

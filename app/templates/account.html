@@ -1,0 +1,197 @@
+{% extends "layout.html" %}
+{% block content %}
+    <section class="container bg-light my-3">
+        <h5 class="profile-text">Account Settings</h5>
+        <form class="form-profile my-3 py-3 border rounded-3 bg-white" method="POST" novalidate>
+            <div class="profile-content d-flex justify-content-center align-items-center mb-4">
+                <img class="profile-img rounded-circle me-3" src="{{ url_for('static', filename='images/default.jpg') }}" alt="profile-img" width="64" height="64">
+                <div class="profile-info">
+                    <p class="profile-name fs-4 fw-bold my-0">{{ current_user.name }}</p>
+                    <p class="profile-email fs-5 text-secondary my-0">{{ current_user.email }}</p>
+                </div>
+            </div>
+            <legend class="border-bottom mb-4">Change Name</legend>
+            <fieldset class="form-group border-bottom mb-3">
+                <div class="form-group mb-3">
+                    {{ name_form.name.label(class="form-label") }}
+                    {% if name_form.name.errors %}
+                        {{ name_form.name(class="form-control is-invalid") }}
+                        <div class="d-block invalid-feedback">
+                            {% for error in name_form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ name_form.name(class="form-control") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mb-4">
+                {{ name_form.name_submit(class="w-100 btn btn-primary") }}
+            </div>
+
+            {{ email_form.hidden_tag() }}
+            <legend class="border-bottom mb-4">Change Email Address</legend>
+            <fieldset class="form-group border-bottom mb-3">
+                <div class="form-group mb-3">
+                    {{ email_form.email.label(class="form-label") }}
+                    {% if email_form.email.errors %}
+                        {{ email_form.email(class="form-control is-invalid") }}
+                        <div class="d-block invalid-feedback">
+                            {% for error in email_form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ email_form.email(class="form-control") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ email_form.password.label(class="form-label") }}
+                    {% if email_form.password.errors %}
+                        <div class="d-flex align-items-center">
+                            {{ email_form.password(class="form-control is-invalid", type="password", id="password") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password', '#toggleVisibility', 0)" id="toggleVisibility" title="Toggle Visibility"></i>
+                        </div>
+                        <div class="d-block invalid-feedback">
+                            {% for error in email_form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center">
+                            {{ email_form.password(class="form-control", type="password", id="password") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password', '#toggleVisibility', 0)" id="toggleVisibility" title="Toggle Visibility"></i>
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mb-4">
+                {{ email_form.email_submit(class="w-100 btn btn-primary") }}
+            </div>
+
+            {{ password_form.hidden_tag() }}
+            <legend class="border-bottom mb-4">Change Master Password</legend>
+            <fieldset class="form-group border-bottom mb-3">
+                <div class="form-group mb-3">
+                    {{ password_form.old_password.label(class="form-label") }}
+                    {% if password_form.old_password.errors %}
+                        <div class="d-flex align-items-center">
+                            {{ password_form.old_password(class="form-control is-invalid", type="password", id="password2") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password2', '#toggleVisibility2', 0)" id="toggleVisibility2" title="Toggle Visibility"></i>
+                        </div>
+                        <div class="d-block invalid-feedback">
+                            {% for error in password_form.old_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center">
+                            {{ password_form.old_password(class="form-control", type="password", id="password2") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password2', '#toggleVisibility2', 0)" id="toggleVisibility2" title="Toggle Visibility"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ password_form.new_password.label(class="form-label") }}
+                    {% if password_form.new_password.errors %}
+                        <div class="d-flex align-items-center">
+                            {{ password_form.new_password(class="form-control is-invalid", type="password", id="password2") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password2', '#toggleVisibility2', 1)" id="toggleVisibility2" title="Toggle Visibility"></i>
+                        </div>
+                        <div class="d-block invalid-feedback">
+                            {% for error in password_form.new_password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center">
+                            {{ password_form.new_password(class="form-control", type="password", id="password2") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password2', '#toggleVisibility2', 1)" id="toggleVisibility2" title="Toggle Visibility"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    {{ password_form.new_password_confirm.label(class="form-label") }}
+                    {% if password_form.new_password_confirm.errors %}
+                        <div class="d-flex align-items-center">
+                            {{ password_form.new_password_confirm(class="form-control is-invalid", type="password", id="password2") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password2', '#toggleVisibility2', 2)" id="toggleVisibility2" title="Toggle Visibility"></i>
+                        </div>
+                        <div class="d-block invalid-feedback">
+                            {% for error in password_form.new_password_confirm.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center">
+                            {{ password_form.new_password_confirm(class="form-control", type="password", id="password2") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password2', '#toggleVisibility2', 2)" id="toggleVisibility2" title="Toggle Visibility"></i>
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mb-4">
+                {{ password_form.password_submit(class="w-100 btn btn-primary") }}
+            </div>
+
+            <legend class="text-danger border-bottom mb-4">Danger Zone</legend>
+            <fieldset class="form-group">
+                <button class="w-100 btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+                    Delete Account
+                </button>
+            </fieldset>
+        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-danger">
+                        <h5 class="modal-title" id="deleteAccountLabel">
+                            <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+                            Delete Account
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete your account?<br>
+                        Deleting an account is permanent and cannot be undone.</p>
+                        <form class="form-delete-account" method="POST" novalidate>
+                            {{ delete_form.hidden_tag() }}
+                            <fieldset class="form-group border-bottom mb-3">
+                                <div class="form-group mb-3">
+                                    {{ delete_form.password.label(class="form-label") }}
+                                    {% if delete_form.password.errors %}
+                                        <script>
+                                            $(document).ready(function() {
+                                                $("#deleteAccount").modal("show");
+                                            });
+                                        </script>
+                                        <div class="d-flex align-items-center">
+                                            {{ delete_form.password(class="form-control is-invalid", type="password", id="password3") }}
+                                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password3', '#toggleVisibility3', 0)" id="toggleVisibility3" title="Toggle Visibility"></i>
+                                        </div>
+                                        <div class="d-block invalid-feedback">
+                                            {% for error in delete_form.password.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="d-flex align-items-center">
+                                            {{ delete_form.password(class="form-control", type="password", id="password3") }}
+                                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password3', '#toggleVisibility3', 0)" id="toggleVisibility3" title="Toggle Visibility"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </fieldset>
+                            <div class="form-group d-flex justify-content-between align-items-center mt-3">
+                                {{ delete_form.delete_submit(class="w-50 btn btn-danger me-2") }}
+                                <button class="w-50 btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

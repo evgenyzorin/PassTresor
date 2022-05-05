@@ -1,0 +1,150 @@
+.app-brand-nouser {
+  font-size: 42px;
+  font-weight: 900;
+  text-align: center;
+  vertical-align: middle;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.app-brand-user {
+  font-size: 36px;
+  font-weight: 900;
+  vertical-align: middle;
+}
+
+.alert {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  opacity: 1;
+  transition: all 0.5s;
+}
+
+#alert-hide {
+  opacity: 0;
+}
+
+.alert-icon {
+  font-size: 24px;
+}
+
+.signin-text,
+.signup-text,
+.index-text,
+.add-edit-text,
+.profile-text,
+.generator-text,
+.export-text {
+  text-align: center;
+  margin: auto;
+  max-width: 600px;
+}
+
+.nav-link {
+  font-size: large;
+  font-weight: 600;
+}
+
+.form-signin,
+.form-signup,
+.form-add,
+.form-profile,
+.form-generator,
+.form-export {
+  margin: auto;
+  max-width: 600px;
+  padding: 20px 20px;
+}
+
+.form-search {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.content {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.dropdown-menu {
+  min-width: 160px;
+}
+
+.list-group {
+  margin: auto;
+  max-width: 600px;
+}
+
+.bi-eye,
+.bi-eye-slash,
+.bi-arrow-repeat {
+  font-size: 20px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.copy-username-icon,
+.copy-password-icon,
+.copy-url-icon,
+.launch-url-icon {
+  font-size: 20px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.dropdown-options-icon {
+  font-size: 24px;
+}
+
+.dropdown-options {
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.list-group-item:hover .dropdown-options {
+  opacity: 1;
+}
+
+.error-page {
+  text-align: center;
+  vertical-align: middle;
+  margin: auto;
+  max-width: 600px;
+  padding: 20px 20px;
+}
+
+.generated-password {
+  text-align: center;
+  color: black;
+  font-weight: 600;
+  height: 88px;
+  resize: none;
+}
+
+.bottom-text {
+  text-align: center;
+}
+
+.top-icon {
+  font-size: 44px;
+}
+
+#topBtn {
+  display: none;
+  position: fixed;
+  bottom: 5px;
+  right: 15px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #6c757d;
+  cursor: pointer;
+}
+
+#topBtn:hover {
+  background: transparent;
+  color: #212529;
+}

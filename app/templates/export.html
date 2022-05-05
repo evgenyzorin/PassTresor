@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <section class="container bg-light my-3">
+        <h5 class="export-text">Export Tresor</h5>
+        <form class="form-export my-3 py-3 border rounded-3 bg-white" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group border-bottom mb-3">
+                <div class="form-group mb-3">
+                    {{ form.file_format.label(class="form-label") }}
+                    {{ form.file_format(class="form-select") }}
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {% if form.password.errors %}
+                        <div class="d-flex align-items-center">
+                            {{ form.password(class="form-control is-invalid", type="password", id="password") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password', '#toggleVisibility', 0)" id="toggleVisibility" title="Toggle Visibility"></i>
+                        </div>
+                        <div class="d-block invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center">
+                            {{ form.password(class="form-control", type="password", id="password") }}
+                            <i class="bi bi-eye text-primary" onclick="toggleVisibility('#password', '#toggleVisibility', 0)" id="toggleVisibility" title="Toggle Visibility"></i>
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group mt-3">
+                <button class="w-100 btn btn-primary" type="submit">Export</button>
+            </div>
+        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exportTresor" tabindex="-1" aria-labelledby="exportTresorLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <fieldset class="border-bottom">
+                        <div class="modal-header text-danger">
+                            <h5 class="modal-title" id="exportTresorLabel">
+                                <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+                                Export Tresor
+                            </h5>
+                        </div>
+                        <div class="modal-body">
+                            This export contains your tresor data in an unencrypted format. 
+                            You should not store or send the exported file over unsecure channels (such as email). 
+                            Delete it immediately after you are done using it.
+                        </div>
+                    </fieldset>
+                    <div class="d-flex justify-content-between align-items-center p-3">
+                        <a class="w-50 btn btn-danger me-2" id="hideModal" href="{{ url_for('entries.download') }}">Export</a>
+                        <button class="w-50 btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Show Modal -->
+    {% if show_modal %}
+        <script>
+            $(document).ready(function() {
+                $("#exportTresor").modal("show");
+            });
+        </script>
+    {% endif %}
+
+    <!-- Hide Modal -->
+    <script>
+        $(document).ready(function() {
+            $("#hideModal").click(function() {
+                $("#exportTresor").modal("hide");
+            });
+        });
+    </script>
+{% endblock content %}
