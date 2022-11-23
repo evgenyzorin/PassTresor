@@ -26,7 +26,7 @@ This app was created as the final project of my Flask framework self-learning pr
 <img width="1440" alt="passtresor-generator" src="https://user-images.githubusercontent.com/73992548/166984262-c2f8baf2-1899-48d5-a6e5-e430b5c583e1.png">
 
 ## Demo
-https://passtresor.herokuapp.com
+https://passtresor.onrender.com
 
 ## Installation / Requirements
 - Install Python 3.8.2 or above
